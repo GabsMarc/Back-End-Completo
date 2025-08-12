@@ -4,20 +4,37 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
-model client {
-  id       Int    @id @default(autoincrement())
-  name     String @db.VarChar(255)
-  lastname String @db.VarChar(255)
+model Users {
+  id       String @id @default(uuid())
+  name     String @db.VarChar(50)
+  lastname String @db.VarChar(50)
   age      Int
   email    String @unique
+
+  Posts Posts[]
 }
 
-model product {
-  id          Int    @id @default(autoincrement())
-  name        String @db.VarChar(255)
+model Posts {
+  id          String @id @default(uuid())
+  title       String @db.VarChar(50)
   description String @db.VarChar(255)
+  value       Float
+  userId      String
+
+  Images Images[]
+
+  user Users @relation(fields: [userId], references: [id])
+}
+
+model Images {
+  id     String @id @default(uuid())
+  image  Bytes
+  url    String
+  postId String
+
+  post Posts @relation(fields: [postId], references: [id])
 }
