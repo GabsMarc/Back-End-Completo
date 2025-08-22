@@ -72,12 +72,16 @@ export class UserService {
 
 
     async deleteUserById(id: string): Promise<Error | Object> {
+
         try {
-            return await prisma.users.delete({
+            const result = await prisma.users.delete({
                 where: {
                     id: id
                 }
             })
+
+            return result
+
         } catch (error) {
             return new Error('Erro ao deletar o Usuário.')
         }

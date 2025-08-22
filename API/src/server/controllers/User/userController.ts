@@ -79,4 +79,19 @@ export class UserController {
 
         return res.status(200).json({ message: "Campos atualizados!" })
     }
+
+
+    async deleteUserById(req: Request, res: Response) {
+
+        const { id } = req.body
+
+        const result = await this.userService.deleteUserById(id)
+
+        if ( result instanceof Error ) {
+            return res.status(500).json(result.message)
+        }
+
+        return res.status(200).json({ message: "Usuário deletado com sucesso!" })
+
+    }
 }
